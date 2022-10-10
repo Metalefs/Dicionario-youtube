@@ -38,10 +38,10 @@ export class Navigator {
 
     searchResult = this.getData(content, query);
 
-    await (page as unknown as Page).screenshot({
-      path: `./src/screenshots/${query}.png`,
-      fullPage: true,
-    });
+    // await (page as unknown as Page).screenshot({
+    //   path: `./src/screenshots/${query}.png`,
+    //   fullPage: true,
+    // });
     return searchResult;
   }
 
