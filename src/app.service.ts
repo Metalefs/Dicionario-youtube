@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { loadLexiconFromWord, loadLexiconFromPhrase } from './lexiconBuilder';
+import { LexiconBuilder } from './lexicon-builder';
 import { wordSearch } from './shared/models/wordSearch';
 
 @Injectable()
 export class AppService {
+  lexiconBuilder: LexiconBuilder;
+  constructor(){
+    this.lexiconBuilder = new LexiconBuilder();
+    this.lexiconBuilder.prepare();
+  }
+  
   async getWord(word): Promise<wordSearch> {
-    return loadLexiconFromWord(word);
+    return this.lexiconBuilder.builLexiconAndReturnWordDefinition(word);
   }
 
   async getPhrase(word): Promise<string> {
-    return loadLexiconFromPhrase(word);
+    return this.lexiconBuilder.buildLexiconAndFormPhrase(word);
   }
 }
