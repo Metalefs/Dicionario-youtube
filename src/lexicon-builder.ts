@@ -77,6 +77,6 @@ export class LexiconBuilder {
         }
     }
 
-    private willSearch = (word:string) => word.length > 3 || word.includes('ú');
+    private willSearch = (word:string) => word.length > 3 || word.includes('ú') || word.includes('u');
     private parseInput = (input:string) => input.split(' ').map(word => word.replace(',', '').replace('.', '').replace(':', ''));
 }
