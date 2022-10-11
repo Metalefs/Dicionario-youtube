@@ -42,8 +42,19 @@ export class DicioInformalScraper {
             console.error('error while searching: ' + query);
         }
 
-        const definition = root.querySelector('[itemprop="description"] > p')?.textContent || '';
-        const example = root.querySelector('[itemprop="description"] > blockquote')?.textContent || '';
+        const definitions = []
+        const definitionParagraphs = root.querySelectorAll('[itemprop="description"] > p');
+        for (const def of definitionParagraphs){
+            if(def?.textContent)
+                definitions.push(def?.textContent || '');
+        } 
+
+        const examples = []
+        const exampleParagraphs = root.querySelectorAll('[itemprop="description"] > blockquote');
+        for (const example of exampleParagraphs){
+            if(example?.textContent)
+                examples.push(example?.textContent || '');
+        } 
 
         const synonyms = [];
         const synonymAnchors = root.querySelectorAll('#sinonimos > div > span > a');
@@ -74,8 +85,8 @@ export class DicioInformalScraper {
 
         return {
             name,
-            definition,
-            example,
+            definitions,
+            examples,
             synonyms,
             antonynms,
             related

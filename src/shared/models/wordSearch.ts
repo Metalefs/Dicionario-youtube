@@ -1,14 +1,14 @@
 export class wordSearch {
   name = '';
-  definition = '';
-  example = '';
+  definitions: string[] = [];
+  examples: string[] = [];
   synonyms: externalRef[];
   antonynms: externalRef[];
   related: externalRef[];
-  constructor(name = "",definition = "",example = "",synonynms = [],antonyms = [],related = []) {
+  constructor(name = "",definitions = [],examples = [],synonynms = [],antonyms = [],related = []) {
     this.name=name;
-    this.definition=definition;
-    this.example=example;
+    this.definitions=definitions;
+    this.examples=examples;
     this.synonyms=synonynms;
     this.antonynms=antonyms;
     this.related=related;
