@@ -7,18 +7,15 @@ export class WordService extends BaseService{
         super(dbconnection, "word");
     }
 
-    async updateRelatedVocabs(wordSearch: any, searchFunction: (name) => Promise<wordSearch>) {
-        for (const word of wordSearch.antonynms) {
+    async updateRelatedVocabs(wordSearch: wordSearch, searchFunction: (name) => Promise<wordSearch>) {
+        const allWords = [wordSearch.antonynms,wordSearch.synonyms,wordSearch.related].flat();       
+
+        for (const word of allWords) {
             await this.tryUpdateLexicon(word, searchFunction)
         }
-    
-        for (const word of wordSearch.synonyms) {
-            await this.tryUpdateLexicon(word, searchFunction)
-        }
-    
-        for (const word of wordSearch.related) {
-            await this.tryUpdateLexicon(word, searchFunction)
-        }
+
+        wordSearch.isRelatedLoaded = true;
+        this.update({ name: wordSearch.name }, wordSearch)
     }
 
     
@@ -28,7 +25,7 @@ export class WordService extends BaseService{
             const wordResult = await searchFunction(word.name)
             console.log('updating: ' + wordResult.name || 'not found');
             if (wordResult?.name)
-                word.update({ name: word.wordResult }, word)
+                this.update({ name: wordResult.name }, word)
         }
     }
 }

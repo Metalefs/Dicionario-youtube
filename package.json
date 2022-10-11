@@ -40,7 +40,8 @@
     "puppeteer-core": "^18.0.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "workerpool": "^6.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

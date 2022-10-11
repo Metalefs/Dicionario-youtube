@@ -43,11 +43,12 @@ export class LexiconBuilder {
     }
 
     builLexiconAndReturnWordDefinition = async (word: string) => {
-        const definition = this.buildLexicon(word);
-        //await this.wordService.updateRelatedVocabs(definition, this.navigator.searchDicioInformal);
+        const definition = await this.buildLexicon(word);
+        if(!(definition.isRelatedLoaded ?? false))
+            await this.wordService.updateRelatedVocabs(definition, this.navigator.searchDicioInformal)
         return definition;
     }
-
+    
     buildLexiconAndFormPhrase = async (phrase: string, config = { randomize: true }) => {
         const words = this.parseInput(phrase);
         const newPhrase = [];
@@ -72,7 +73,7 @@ export class LexiconBuilder {
         const words = this.parseInput(input); 
         for (const word of words) {
             if (this.willSearch(word)) {
-                await this.buildLexicon(word)
+                await this.builLexiconAndReturnWordDefinition(word)
             }
         }
     }
