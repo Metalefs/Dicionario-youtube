@@ -5,6 +5,7 @@ export class wordSearch {
   synonyms: externalRef[];
   antonynms: externalRef[];
   related: externalRef[];
+  isRelatedLoaded?= false;
   constructor(name = "",definitions = [],examples = [],synonynms = [],antonyms = [],related = []) {
     this.name=name;
     this.definitions=definitions;
