@@ -6,10 +6,14 @@ export function getRandomInt(min, max) {
 }
 
 export function getRandomWord(wordResult: any, word: string) {
-    const nameOrRandomRelated = [wordResult.name, wordResult.related[getRandomInt(0, wordResult?.related?.length - 1)]?.name][getRandomInt(0, 1)]
-    const rand = getRandomInt(0, wordResult?.definitions?.length-1);
-    const definitionOrnameOrRandomRelatedIfNoNumber = /\d/.test(wordResult?.definitions[rand]) ? nameOrRandomRelated : wordResult?.definitions[rand]
-    const randSynonym = wordResult?.synonyms[getRandomInt(0, wordResult?.synonyms?.length - 1)]?.name
+    const nameOrRandomRelated = [wordResult?.name || word, (wordResult?.related?.at(getRandomInt(0, wordResult?.related?.length - 1 || 0))?.name ?? word)][getRandomInt(0, 1)]
+    let rand = 0;
+    try{
+        rand = getRandomInt(0, wordResult?.definitions?.length-1 || 0);
+    }
+    catch(Ex){}
+    const definitionOrnameOrRandomRelatedIfNoNumber = /\d/.test(wordResult?.definitions?.at(rand) ?? '') ? nameOrRandomRelated : wordResult?.definitions?.at(rand) || word
+    const randSynonym = wordResult?.synonyms?.at(getRandomInt(0, wordResult?.synonyms?.length - 1 || 0))?.name
 
     let result = [randSynonym || definitionOrnameOrRandomRelatedIfNoNumber || wordResult?.name || word, definitionOrnameOrRandomRelatedIfNoNumber || wordResult?.name || word, word][getRandomInt(0, 2)]
     result = result.replace('.', '').replace('..', ' ');

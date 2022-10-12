@@ -98,8 +98,8 @@ export class DicioInformalScraper {
         if (anchor) {
             const href = anchor.getAttribute('href');
             const url = new URL(baseUrl);
-            console.log("navigating to: "+url.origin + href);
-            await this.page.goto(url.origin + href);
+            console.log("navigating to: "+url.origin + href.replace('https://www.dicionarioinformal.com.br',''));
+            await this.page.goto(url.origin + href.replace('https://www.dicionarioinformal.com.br',''));
             content = await (this.page as unknown as Page).content();
         }
         return content;
