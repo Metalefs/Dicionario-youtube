@@ -11,6 +11,7 @@ export class WordService extends BaseService{
         const allWords = [wordSearch.antonynms,wordSearch.synonyms,wordSearch.related].flat();       
 
         for (const word of allWords) {
+            console.log(word?.name ?? word)
             await this.tryUpdateLexicon(word, searchFunction)
         }
 
@@ -20,7 +21,9 @@ export class WordService extends BaseService{
 
     
     async tryUpdateLexicon(word: any, searchFunction: (name) => Promise<wordSearch>) {
-        const inDictionary = await this.findByName(word.name) as any
+        if(!word)
+            return;
+        const inDictionary = await this.findByName(word?.name || word) as any
         if (!inDictionary) {
             const wordResult = await searchFunction(word.name)
             console.log('updating: ' + wordResult.name || 'not found');
