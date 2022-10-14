@@ -18,6 +18,13 @@ export default {
     },
     async mounted() {
         const { player, ...getPlayer } = playerStore()
+        setInterval(() => {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast:not(.fade)'))
+            var toastList = toastElList.map(function (toastEl) {
+                return new bootstrap.Toast(toastEl, { delay: 5000 })
+            })
+            toastList.forEach(s => s.show())
+        },300)
         playerStore().$onAction(
             ({
                 name, // name of the action
@@ -48,21 +55,21 @@ export default {
                             const time = args[0]?.target?.getCurrentTime() * 1000;
                             this.active_transcriptions = transcriptOffset(time);
                             this.hasActiveTranscription = !!this.hasActiveTranscription;
-                            try{
+                            try {
                                 const element = document.querySelector(".active");
-                                if(element && this.canScroll)
-                                element.scrollIntoView({
-                                    behavior: 'auto',
-                                    block: 'center',
-                                    inline: 'center'
-                                });
-                                if(!this.canScroll && player.target.getPlayerState() === 1){
+                                if (element && this.canScroll)
+                                    element.scrollIntoView({
+                                        behavior: 'auto',
+                                        block: 'center',
+                                        inline: 'center'
+                                    });
+                                if (!this.canScroll && player.target.getPlayerState() === 1) {
                                     args[0]?.target?.pauseVideo()
                                 }
-                                else if(player.target.getPlayerState() === 2){
-                                    args[0]?.target?.playVideo()
-                                }
-                            }catch(ex){}
+                                // else if(this.canScroll && player.target.getPlayerState() === 2){
+                                //     args[0]?.target?.playVideo()
+                                // }
+                            } catch (ex) { }
                         }, 100)
                     }
                 })
@@ -81,13 +88,13 @@ export default {
             return this.active_transcriptions?.at(0)?.text === text;
         },
         isLastActive(text) {
-            return this.active_transcriptions?.at(this.active_transcriptions.length-1)?.text === text;
+            return this.active_transcriptions?.at(this.active_transcriptions.length - 1)?.text === text;
         },
-        getWords(phrase){
+        getWords(phrase) {
             return phrase.split(" ");
         },
-        activePhrase(){
-            return this.active_transcriptions?.at(this.active_transcriptions.length-1)?.text
+        activePhrase() {
+            return this.active_transcriptions?.at(this.active_transcriptions.length - 1)?.text
         }
     }
 }
@@ -95,20 +102,20 @@ export default {
 
 <template>
     <div>
-        <div class="transcript" @mousedown="canScroll=false" @mouseout="canScroll=true">
+        <div class="transcript" @mouseover="canScroll=false" @mouseout="canScroll=true">
             <div class="d-flex flex-wrap line" v-for="post in active_transcriptions" :key="post.offset">
-                <VDropdown v-for="(item, index) in getWords(post.text)" :key="index" :triggers="['click','focus']">      
+                <VDropdown v-for="(item, index) in getWords(post.text)" :key="index" :triggers="['click','focus']">
                     <span :class="{ active: isActive(post.text), lastActive: isLastActive(post.text) }">
                         {{ item }} &nbsp;
                     </span>
                     <template #popper>
-                        <DefineAsync :word="item"/>
+                        <DefineAsync :word="item" />
                     </template>
                 </VDropdown>
             </div>
         </div>
-        <div>
-            <DefineAsync v-if="activePhrase()" :phrase="activePhrase()" :key="activePhrase()"/>
+        <div aria-live="polite" aria-atomic="true">
+            <DefineAsync :phrase="activePhrase()" :key="activePhrase()" />
         </div>
     </div>
 </template>
@@ -119,23 +126,28 @@ h1 {
     font-size: 2.6rem;
     top: -10px;
 }
-span{
-    cursor:pointer;
+
+span {
+    cursor: pointer;
 }
-.line{
+
+.line {
     padding: .5rem;
-    border-bottom:1px solid rgba(128, 128, 128, 0.009);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.009);
 }
-.line:focus{
+
+.line:focus {
     background: rgb(48, 237, 19);
     color: black;
     font-weight: bold;
 }
+
 .active {
     background: rgb(21, 21, 21);
-    font-weight: bold; 
+    font-weight: bold;
     padding: .5rem;
 }
+
 .lastActive {
     background: rgb(48, 237, 19);
     color: black;
@@ -152,8 +164,8 @@ h3 {
 .transcript {
     outline: none;
     box-sizing: border-box;
-    min-width: 480px;
-    height: 642px;
+    max-width: 480px;
+    height: 442px;
     background: #181818;
     border: 1px solid grey;
     overflow-y: scroll;

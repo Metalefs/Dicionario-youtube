@@ -9,9 +9,9 @@ const routes = Object.keys(pages).map((path) => {
   const name = path.match(/\.\.\/pages\/(.*)\.vue$/)[1].toLowerCase();
   const routePath = `/${name}`;
  
-  if (routePath === '/') {
+  if (routePath === '/home') {
     return {
-      path: '/home',
+      path: '/',
       name,
       component: pages[path],
     };

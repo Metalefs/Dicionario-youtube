@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import VideoContainer from '@/components/VideoContainer.vue';
+
 </script>
 
 <template>
@@ -8,14 +9,15 @@ import VideoContainer from '@/components/VideoContainer.vue';
     <div class="wrapper">
       <VideoContainer/>
 
-      <nav>
-        <RouterLink to="/home">Inicio</RouterLink>
-        <RouterLink to="/about">Sobre</RouterLink>
-      </nav>
     </div>
   </header>
 
   <RouterView />
+  
+  <nav>
+        <RouterLink to="/">Inicio</RouterLink>
+        <RouterLink to="/about">Sobre</RouterLink>
+      </nav>
 </template>
 
 <style>
@@ -56,7 +58,7 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
+  margin: 2rem 0;
 }
 
 nav a.router-link-exact-active {

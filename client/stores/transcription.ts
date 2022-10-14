@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
-
+import { APIURL } from '../constants';
 export const transcriptionStore = defineStore('transcription', ()=>{
   const transcription = []
  
   async function transcript(id) {
     try {
-      const response = await fetch("http://localhost:3000/transcript/"+id);
+      const response = await fetch(window.location.origin+"/transcript/"+id);
       const json = await response.json();
       this.transcription = json;
       return json;

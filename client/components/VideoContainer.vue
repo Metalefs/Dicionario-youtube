@@ -15,9 +15,9 @@
         'onStateChange': (event) => { setPlayer(event) }
       },
       height: '360',
-      width: '640',
+      ///width: window.innerWidth - 90,
       videoId: 'BnmUQrMDAAU',
-      origin: 'http://localhost:3000',
+      origin: window.location.origin,
       showinfo: 1,
       enablejsapi: 1,
       playerVars: {
@@ -36,11 +36,17 @@
   <div class="greetings">
     <span>Video: {{ getVideoTitle() }}</span>
 
-    <div id="ytplayer"></div>
+    <div class="video" id="ytplayer"></div>
   </div>
 </template>
 
 <style scoped>
+
+.video {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
