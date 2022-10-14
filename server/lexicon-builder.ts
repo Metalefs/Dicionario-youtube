@@ -5,6 +5,7 @@ import { getRandomWord } from "./helper/lexicon-helper"
 import { WordService } from "./services/word.service"
 import { wordSearch } from "./shared/models/wordSearch"
 import { Navigator } from "./shared/navigator"
+import { isProduction } from "./utils/env"
 
 export class LexiconBuilder {
     browser:Browser;
@@ -21,12 +22,15 @@ export class LexiconBuilder {
     async prepare(){
         [this.db, this.con] = await dbconnection() as any;
         this.wordService = new WordService(this.db); 
-        this.browser = await launch();
-        this.navigator = new Navigator(this.browser);
+        if (!isProduction) {
+            this.browser = await launch();
+            this.navigator = new Navigator(this.browser);
+        }
     }
 
     unmount(){
-        this.browser.close();
+        if(this.browser)
+            this.browser.close();
         (this.con as MongoClient).close();
     }
 
@@ -35,10 +39,12 @@ export class LexiconBuilder {
         let wordSearch = await this.wordService.findByName(word) as any;
         if (wordSearch) return wordSearch;
         else {
-            wordSearch = await this.navigator.searchDicioInformal(word);
-            if (!wordSearch) { return word }
-            this.wordService.update({ name: wordSearch.name }, wordSearch);
-            return wordSearch as wordSearch;
+            if (!isProduction) {
+                wordSearch = await this.navigator.searchDicioInformal(word);
+                if (!wordSearch) { return word }
+                this.wordService.update({ name: wordSearch.name }, wordSearch);
+                return wordSearch as wordSearch;
+            }
         }
     }
 
