@@ -55,7 +55,8 @@
     "vue": "^3.2.26",
     "vue-router": "^4.0.12",
     "workerpool": "^6.2.1",
-    "youtube-transcript": "^1.0.4"
+    "youtube-transcript": "^1.0.4",
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
