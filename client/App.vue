@@ -9,7 +9,7 @@ import VideoContainer from '@/components/VideoContainer.vue';
       <VideoContainer/>
 
       <nav>
-        <RouterLink to="/">Inicio</RouterLink>
+        <RouterLink to="/home">Inicio</RouterLink>
         <RouterLink to="/about">Sobre</RouterLink>
       </nav>
     </div>

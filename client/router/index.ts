@@ -8,9 +8,10 @@ const pages = import.meta.glob('../pages/*.vue');
 const routes = Object.keys(pages).map((path) => {
   const name = path.match(/\.\.\/pages\/(.*)\.vue$/)[1].toLowerCase();
   const routePath = `/${name}`;
-  if (routePath === '/home') {
+ 
+  if (routePath === '/') {
     return {
-      path: '/',
+      path: '/home',
       name,
       component: pages[path],
     };
