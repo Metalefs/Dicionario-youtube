@@ -1,8 +1,12 @@
 <script lang="ts">
 import { transcriptionStore } from '@/stores/transcription'
 import { playerStore } from '@/stores/player';
+import DefineAsync from './DefineAsync.vue';
 
 export default {
+    components: {
+        DefineAsync
+    },
     data() {
         return {
             active_transcriptions: [],
@@ -39,12 +43,15 @@ export default {
                             this.full_transcription = transcription;
                             const time = args[0]?.target?.getCurrentTime() * 1000;
                             this.active_transcriptions = transcriptOffset(time);
-                            const element = document.querySelector(".active");
-                            element.scrollIntoView({
-                                behavior: 'auto',
-                                block: 'center',
-                                inline: 'center'
-                            });
+                            try{
+                                const element = document.querySelector(".active");
+                                if(element)
+                                element.scrollIntoView({
+                                    behavior: 'auto',
+                                    block: 'center',
+                                    inline: 'center'
+                                });
+                            }catch(ex){}
                         }, 100)
                     }
                 })
@@ -70,10 +77,17 @@ export default {
 </script>
 
 <template>
-    <div class="transcript">
-        <p v-for="post in full_transcription" :key="post.offset">
-            <span :class="{ active: isActive(post.text), lastActive: isLastActive(post.text) }">{{ post.text }}</span>
-        </p>
+    <div>
+        <div class="transcript">
+            <VDropdown :triggers="['click', 'focus', 'hover']" v-for="post in full_transcription" :key="post.offset">
+                <p>
+                    <span :class="{ active: isActive(post.text), lastActive: isLastActive(post.text) }">{{ post.text }}</span>
+                </p>
+                <template #popper>
+                    <DefineAsync :phrase="post.text"/>
+                </template>
+            </VDropdown>
+        </div>
     </div>
 </template>
 
