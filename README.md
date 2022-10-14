@@ -1,7 +1,7 @@
 ## Introduction
 
 This app provides instant word definitions for any youtube video (*in portuguese).
-This was created as a satire to comments about 'obscene' language in recent videos.
+This was created as a satire to comments about 'obscene'/colloquial language in videos.
 
 ## Stack
 
