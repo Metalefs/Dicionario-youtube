@@ -21,7 +21,7 @@ export default {
         setInterval(() => {
             var toastElList = [].slice.call(document.querySelectorAll('.toast:not(.fade)'))
             var toastList = toastElList.map(function (toastEl) {
-                return new bootstrap.Toast(toastEl, { delay: 5000 })
+                return new bootstrap.Toast(toastEl, { delay: 20000 })
             })
             toastList.forEach(s => s.show())
         },300)
