@@ -12,7 +12,7 @@ import * as Worker from './pool/controller';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  new PurgeStaticFilesScheduler((await dbconnection()[0] as any)).start()
+  new PurgeStaticFilesScheduler(((await dbconnection())[2] as any)).start()
   
   if (process.env.WORKER_POOL_ENABLED === '1') {
     const options = { minWorkers: 'max' }

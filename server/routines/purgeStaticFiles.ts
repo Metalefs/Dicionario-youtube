@@ -1,14 +1,13 @@
 import { Agenda } from "agenda/es";
-import { Db } from "mongodb";
-import { mongoConnectionString } from "../database";
+import { MongoClient } from "mongodb";
 import * as fs from 'fs';
 import * as path from 'path';
 
 const directories = ['./server/screenshots'];
 export class PurgeStaticFilesScheduler {
     agenda;
-    constructor(private db: Db) {
-        this.agenda = new Agenda({ db: { address: mongoConnectionString + '/agenda' } });
+    constructor(client: MongoClient) {
+        this.agenda = new Agenda({ mongo: client.db("agenda") });
     }
 
     start() {
