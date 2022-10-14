@@ -5,10 +5,10 @@
 
 <template>
   <div class="w-100 row align-items-center justify-content-center">
-    <div class="col-sm-12 col-md-1">
+    <div class="col-sm-1 col-md-1">
       <IconSeparator/>
     </div>
-    <div class="col-sm-12 col-md-11">
+    <div class="col-sm-11 col-md-11">
       <Transcript/>
     </div>
   </div>

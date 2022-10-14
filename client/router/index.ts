@@ -4,21 +4,13 @@ import {
   createWebHistory,
 } from 'vue-router';
 
-// @ts-ignore
 const pages = import.meta.glob('../pages/*.vue');
 const routes = Object.keys(pages).map((path) => {
   const name = path.match(/\.\.\/pages\/(.*)\.vue$/)[1].toLowerCase();
   const routePath = `/${name}`;
   if (routePath === '/home') {
     return {
-      path: '/home',
-      name,
-      component: pages[path],
-    };
-  }
-  if (routePath === '/') {
-    return {
-      path: '/home',
+      path: '/',
       name,
       component: pages[path],
     };
@@ -32,6 +24,7 @@ const routes = Object.keys(pages).map((path) => {
 
 export function createRouter() {
   return _createRouter({
+    // @ts-ignore
     history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
     routes,
   });

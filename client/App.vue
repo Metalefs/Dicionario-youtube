@@ -9,7 +9,7 @@ import VideoContainer from '@/components/VideoContainer.vue';
       <VideoContainer/>
 
       <nav>
-        <RouterLink to="/home">Inicio</RouterLink>
+        <RouterLink to="/">Inicio</RouterLink>
         <RouterLink to="/about">Sobre</RouterLink>
       </nav>
     </div>
@@ -99,6 +99,8 @@ nav a:first-of-type {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+
+    max-width: 100vw;
   }
 
   .logo {
