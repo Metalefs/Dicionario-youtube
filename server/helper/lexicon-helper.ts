@@ -12,10 +12,10 @@ export function getRandomWord(wordResult: any, word: string) {
         rand = getRandomInt(0, wordResult?.definitions?.length-1 || 0);
     }
     catch(Ex){}
-    const definitionOrnameOrRandomRelatedIfNoNumber = /\d/.test(wordResult?.definitions?.at(rand) ?? '') ? nameOrRandomRelated : wordResult?.definitions?.at(rand) || word
+    const definitionOrnameOrRandomRelatedIfNoNumber = /\d/.test(wordResult?.definitions?.at(rand) ?? '') ? nameOrRandomRelated : wordResult?.definitions?.at(rand) ?? word
     const randSynonym = wordResult?.synonyms?.at(getRandomInt(0, wordResult?.synonyms?.length - 1 || 0))?.name
 
-    let result = [randSynonym || definitionOrnameOrRandomRelatedIfNoNumber || wordResult?.name || word, definitionOrnameOrRandomRelatedIfNoNumber || wordResult?.name || word, word][getRandomInt(0, 2)]
+    let result = [(randSynonym ?? definitionOrnameOrRandomRelatedIfNoNumber) || (wordResult?.name ?? word), definitionOrnameOrRandomRelatedIfNoNumber || (wordResult?.name ?? word), word][getRandomInt(0, 2)]
     result = result.replace('.', '').replace('..', ' ');
 
     if (word.endsWith(',') || word.endsWith(':') || word.endsWith('.')) {
