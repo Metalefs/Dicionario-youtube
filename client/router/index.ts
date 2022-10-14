@@ -16,6 +16,13 @@ const routes = Object.keys(pages).map((path) => {
       component: pages[path],
     };
   }
+  if (routePath === '/') {
+    return {
+      path: '/home',
+      name,
+      component: pages[path],
+    };
+  }
   return {
     path: routePath,
     name,

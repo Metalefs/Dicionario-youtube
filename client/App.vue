@@ -15,9 +15,9 @@ import VideoContainer from '@/components/VideoContainer.vue';
   <RouterView />
   
   <nav>
-        <RouterLink to="/">Inicio</RouterLink>
-        <RouterLink to="/about">Sobre</RouterLink>
-      </nav>
+    <RouterLink to="/">Inicio</RouterLink>
+    <RouterLink to="/about">Sobre</RouterLink>
+  </nav>
 </template>
 
 <style>
