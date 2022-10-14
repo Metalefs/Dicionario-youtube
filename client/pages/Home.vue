@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MainPage from '@/components/MainPage.vue';
+import Videos from './Videos.vue';
 </script>
 
 <template>
   <main>
-    <MainPage />
+    <Videos />
   </main>
 </template>

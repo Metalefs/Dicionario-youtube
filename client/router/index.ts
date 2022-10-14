@@ -11,14 +11,14 @@ const routes = Object.keys(pages).map((path) => {
  
   if (routePath === '/home') {
     return {
-      path: '/',
+      path: '/videos',
       name,
       component: pages[path],
     };
   }
   if (routePath === '/') {
     return {
-      path: '/home',
+      path: '/videos',
       name,
       component: pages[path],
     };

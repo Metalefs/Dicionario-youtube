@@ -5,35 +5,33 @@ import VideoContainer from '@/components/VideoContainer.vue';
 </script>
 
 <template>
-  <header>
+  <div class="w-100">
+    <header>
+      <nav>
+        <RouterLink to="/about">Sobre</RouterLink>
+        <RouterLink to="/videos">Videos</RouterLink>
+        <RouterLink to="/euphemize">Eufemizar uma frase</RouterLink>
+        <RouterLink to="/defineword">Definir uma palavra</RouterLink>
+      </nav>
+    </header>
     <div class="wrapper">
-      <VideoContainer/>
-
+      <RouterView />
     </div>
-  </header>
-
-  <RouterView />
-  
-  <nav>
-    <RouterLink to="/">Inicio</RouterLink>
-    <RouterLink to="/about">Sobre</RouterLink>
-  </nav>
+  </div>
 </template>
 
 <style>
 @import '@/assets/base.css';
-
+.wrapper {
+    min-height: 95vh;
+    display: flex;
+    align-items: center;
+  }
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-
   font-weight: normal;
-}
-
-header {
-  line-height: 1.5;
-  max-height: 100vh;
 }
 
 .logo {
@@ -83,26 +81,6 @@ nav a:first-of-type {
   body {
     display: flex;
     place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-
-    max-width: 100vw;
   }
 
   .logo {

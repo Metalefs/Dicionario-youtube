@@ -1,12 +1,12 @@
 <script lang="ts">
 import { transcriptionStore } from '@/stores/transcription'
 import { playerStore } from '@/stores/player';
-import DefineAsync from './DefineAsync.vue';
+import DefinitionToast from './DefinitionToast.vue';
 import { dictionaryStore } from '@/stores/dictionary';
 
 export default {
     components: {
-        DefineAsync
+        DefinitionToast
     },
     data() {
         return {
@@ -21,7 +21,7 @@ export default {
         setInterval(() => {
             var toastElList = [].slice.call(document.querySelectorAll('.toast:not(.fade)'))
             var toastList = toastElList.map(function (toastEl) {
-                return new bootstrap.Toast(toastEl, { delay: 20000 })
+                return new bootstrap.Toast(toastEl, { delay: 5000 })
             })
             toastList.forEach(s => s.show())
         },300)
@@ -90,8 +90,8 @@ export default {
         getWords(phrase) {
             return phrase.split(" ");
         },
-        activePhrase() {
-            return this.active_transcriptions?.at(this.active_transcriptions.length - 1)?.text
+        activePhrases() {
+            return this.active_transcriptions
         }
     }
 }
@@ -106,13 +106,15 @@ export default {
                         {{ item }} &nbsp;
                     </span>
                     <template #popper>
-                        <DefineAsync :word="item" />
+                        <DefinitionToast :word="item" />
                     </template>
                 </VDropdown>
             </div>
         </div>
-        <div aria-live="polite" aria-atomic="true">
-            <DefineAsync :phrase="activePhrase()" :key="activePhrase()" />
+        <div>
+            <div class="toast-container">
+                <DefinitionToast v-for="phrase in activePhrases()" :phrase="phrase.text" :key="phrase.text" />
+            </div>
         </div>
     </div>
 </template>
