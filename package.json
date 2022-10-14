@@ -1,6 +1,10 @@
 {
   "name": "dicionario-rasquido",
   "version": "0.0.1",
+  "engines": {
+    "node": "18.x",
+    "npm": "7.x"
+  },
   "description": "",
   "author": "",
   "private": true,
