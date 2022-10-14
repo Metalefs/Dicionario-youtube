@@ -22,10 +22,10 @@ export class LexiconBuilder {
     async prepare(){
         [this.db, this.con] = await dbconnection() as any;
         this.wordService = new WordService(this.db); 
-        if (!isProduction) {
+        //if (!isProduction) {
             this.browser = await launch();
             this.navigator = new Navigator(this.browser);
-        }
+        //}
     }
 
     unmount(){
@@ -39,12 +39,12 @@ export class LexiconBuilder {
         let wordSearch = await this.wordService.findByName(word) as any;
         if (wordSearch) return wordSearch;
         else {
-            if (!isProduction) {
+            //if (!isProduction) {
                 wordSearch = await this.navigator.searchDicioInformal(word);
                 if (!wordSearch) { return word }
                 this.wordService.update({ name: wordSearch.name }, wordSearch);
                 return wordSearch as wordSearch;
-            }
+            //}
         }
     }
 
