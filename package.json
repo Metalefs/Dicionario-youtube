@@ -16,7 +16,7 @@
     "build:ssr": "ts-node scripts/build-ssr",
     "postbuild": "npm run build:csr && npm run build:ssr",
     "format": "prettier --write \"server/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "npm run prod",
     "preload": "ts-node ./server/preload-vocab.ts",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
