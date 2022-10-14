@@ -8,7 +8,7 @@ import SupportIcon from './icons/IconSupport.vue';
     <WelcomeItem>
         <template #icon>
             <SupportIcon />
-        </template>.
+        </template>
         <div class="space"></div>
     </WelcomeItem>
 

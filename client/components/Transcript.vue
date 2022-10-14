@@ -2,6 +2,7 @@
 import { transcriptionStore } from '@/stores/transcription'
 import { playerStore } from '@/stores/player';
 import DefineAsync from './DefineAsync.vue';
+import { dictionaryStore } from '@/stores/dictionary';
 
 export default {
     components: {
@@ -9,8 +10,10 @@ export default {
     },
     data() {
         return {
+            hasActiveTranscription: false,
             active_transcriptions: [],
-            full_transcription: []
+            full_transcription: [],
+            canScroll: true,
         }
     },
     async mounted() {
@@ -39,18 +42,26 @@ export default {
                         const id = args[0].target.playerInfo.videoData.video_id;
                         await transcript(id);
                         const { transcriptOffset, transcription } = transcriptionStore()
+                        const { definePhrase } = dictionaryStore();
                         setInterval(() => {
                             this.full_transcription = transcription;
                             const time = args[0]?.target?.getCurrentTime() * 1000;
                             this.active_transcriptions = transcriptOffset(time);
+                            this.hasActiveTranscription = !!this.hasActiveTranscription;
                             try{
                                 const element = document.querySelector(".active");
-                                if(element)
+                                if(element && this.canScroll)
                                 element.scrollIntoView({
                                     behavior: 'auto',
                                     block: 'center',
                                     inline: 'center'
                                 });
+                                if(!this.canScroll && player.target.getPlayerState() === 1){
+                                    args[0]?.target?.pauseVideo()
+                                }
+                                else if(player.target.getPlayerState() === 2){
+                                    args[0]?.target?.playVideo()
+                                }
                             }catch(ex){}
                         }, 100)
                     }
@@ -67,10 +78,16 @@ export default {
     },
     methods: {
         isActive(text) {
-            return this.active_transcriptions.at(0).text === text;
+            return this.active_transcriptions?.at(0)?.text === text;
         },
         isLastActive(text) {
-            return this.active_transcriptions.at(this.active_transcriptions.length-1).text === text;
+            return this.active_transcriptions?.at(this.active_transcriptions.length-1)?.text === text;
+        },
+        getWords(phrase){
+            return phrase.split(" ");
+        },
+        activePhrase(){
+            return this.active_transcriptions?.at(this.active_transcriptions.length-1)?.text
         }
     }
 }
@@ -78,15 +95,20 @@ export default {
 
 <template>
     <div>
-        <div class="transcript">
-            <VDropdown :triggers="['click', 'focus', 'hover']" v-for="post in full_transcription" :key="post.offset">
-                <p>
-                    <span :class="{ active: isActive(post.text), lastActive: isLastActive(post.text) }">{{ post.text }}</span>
-                </p>
-                <template #popper>
-                    <DefineAsync :phrase="post.text"/>
-                </template>
-            </VDropdown>
+        <div class="transcript" @mousedown="canScroll=false" @mouseout="canScroll=true">
+            <div class="d-flex flex-wrap line" v-for="post in active_transcriptions" :key="post.offset">
+                <VDropdown v-for="(item, index) in getWords(post.text)" :key="index" :triggers="['click','focus']">      
+                    <span :class="{ active: isActive(post.text), lastActive: isLastActive(post.text) }">
+                        {{ item }} &nbsp;
+                    </span>
+                    <template #popper>
+                        <DefineAsync :word="item"/>
+                    </template>
+                </VDropdown>
+            </div>
+        </div>
+        <div>
+            <DefineAsync v-if="activePhrase()" :phrase="activePhrase()" :key="activePhrase()"/>
         </div>
     </div>
 </template>
@@ -97,19 +119,30 @@ h1 {
     font-size: 2.6rem;
     top: -10px;
 }
-
-span.active {
-    background: rgb(21, 21, 21);
-    font-weight: bold;
-    padding: .5rem;
+span{
+    cursor:pointer;
 }
-span.lastActive {
+.line{
+    padding: .5rem;
+    border-bottom:1px solid rgba(128, 128, 128, 0.009);
+}
+.line:focus{
     background: rgb(48, 237, 19);
     color: black;
     font-weight: bold;
+}
+.active {
+    background: rgb(21, 21, 21);
+    font-weight: bold; 
     padding: .5rem;
-    
+}
+.lastActive {
+    background: rgb(48, 237, 19);
+    color: black;
+    font-weight: bold;
+    padding: .25rem;
     transition: all .5s;
+    border-radius: 10px;
 }
 
 h3 {
