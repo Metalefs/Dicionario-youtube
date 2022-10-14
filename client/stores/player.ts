@@ -10,6 +10,7 @@ export const playerStore = defineStore('player',{
   actions: {
     setPlayer(player) {
       this.player = player;
+      console.log(player.target.getPlayerState())
     },
   },
 });

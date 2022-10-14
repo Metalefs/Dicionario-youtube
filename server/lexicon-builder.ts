@@ -49,6 +49,10 @@ export class LexiconBuilder {
         return definition;
     }
     
+    returnWordDefinition = async (word: string) => {
+        return this.buildLexicon(word);
+    }
+    
     buildLexiconAndFormPhrase = async (phrase: string, config = { randomize: true }) => {
         const words = this.parseInput(phrase);
         const newPhrase = [];
