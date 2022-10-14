@@ -10,6 +10,7 @@ export const launch = async () => {
       // Required for Docker version of Puppeteer
       '--no-sandbox',
       '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage'
     ],
     //env: { LANGUAGE: 'pt-BR' },
   });
