@@ -4,14 +4,14 @@ import * as puppeteer from 'puppeteer';
 
 export const launch = async () => {
   const browser = await puppeteer.launch({
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-    headless: true,
+    //executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+    //headless: true,
     args: [
       // Required for Docker version of Puppeteer
       '--no-sandbox',
       '--disable-setuid-sandbox',
     ],
-    env: { LANGUAGE: 'pt-BR' },
+    //env: { LANGUAGE: 'pt-BR' },
   });
   return browser;
 };
