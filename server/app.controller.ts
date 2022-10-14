@@ -1,10 +1,12 @@
 import { readdirSync, readFileSync } from 'fs';
 import {
+  CacheInterceptor,
   Controller,
   Get,
   Header,
   InternalServerErrorException,
   Req,
+  UseInterceptors,
 } from '@nestjs/common';
 import { getViteServer } from './get-vite-server';
 import { isProduction } from './utils/env';
@@ -29,6 +31,7 @@ const ROUTES_PATH = readdirSync(resolveClientPath('pages'), {
   });
 
 @Controller(ROUTES_PATH)
+@UseInterceptors(CacheInterceptor)
 export class AppController {
   @Get()
   @Header('Content-Type', 'text/html')

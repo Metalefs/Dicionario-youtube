@@ -1,8 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { CacheInterceptor, Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { LexiconService } from './lexicon.service';
 import { wordSearch } from './shared/models/wordSearch';
 
 @Controller()
+@UseInterceptors(CacheInterceptor)
 export class LexiconController {
   constructor(private readonly LexiconService: LexiconService) {}
 

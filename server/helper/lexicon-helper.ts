@@ -12,7 +12,7 @@ export function getRandomWord(wordResult: any, word: string) {
         randDefIdx = getRandomInt(0, wordResult?.definitions?.length-1 || 0);
     }
     catch(Ex){}
-    const definitionOrnameOrRandomRelatedIfNoNumber = /\d/.test(wordResult?.definitions[randDefIdx] ?? '') ? nameOrRandomRelated : wordResult?.definitions[randDefIdx] ?? word;
+    const definitionOrnameOrRandomRelatedIfNoNumber = /\d/.test(wordResult?.definitions? wordResult?.definitions[randDefIdx] : '') ? nameOrRandomRelated : wordResult?.definitions? wordResult?.definitions[randDefIdx] : word;
     const randSynonIdx = getRandomInt(0, wordResult?.synonyms?.length - 1 || 0);
     const randSynonymOrWord = !!wordResult?.synonyms ? wordResult?.synonyms[randSynonIdx]?.name : word;
 

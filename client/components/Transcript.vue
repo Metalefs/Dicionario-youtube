@@ -44,19 +44,16 @@ export default {
                     if (name == 'setPlayer' && args) {
                         const { transcript } = transcriptionStore()
                         console.log(args[0].target.getCurrentTime())
-
-                        //setInterval(()=>{setPlayer(player)}, 100);
                         const id = args[0].target.playerInfo.videoData.video_id;
                         await transcript(id);
                         const { transcriptOffset, transcription } = transcriptionStore()
-                        const { definePhrase } = dictionaryStore();
                         setInterval(() => {
                             this.full_transcription = transcription;
                             const time = args[0]?.target?.getCurrentTime() * 1000;
                             this.active_transcriptions = transcriptOffset(time);
                             this.hasActiveTranscription = !!this.hasActiveTranscription;
                             try {
-                                const element = document.querySelector(".active");
+                                const element = document.querySelector(".lastActive");
                                 if (element && this.canScroll)
                                     element.scrollIntoView({
                                         behavior: 'auto',
@@ -85,7 +82,7 @@ export default {
     },
     methods: {
         isActive(text) {
-            return this.active_transcriptions?.at(0)?.text === text;
+            return this.active_transcriptions?.some(t=> t.text ==text);
         },
         isLastActive(text) {
             return this.active_transcriptions?.at(this.active_transcriptions.length - 1)?.text === text;
@@ -102,7 +99,7 @@ export default {
 
 <template>
     <div>
-        <div class="transcript" @mouseover="canScroll=false" @mouseout="canScroll=true">
+        <div class="transcript" @mouseover="canScroll=false" @click="canScroll=false" @mouseout="canScroll=true">
             <div class="d-flex flex-wrap line" v-for="post in active_transcriptions" :key="post.offset">
                 <VDropdown v-for="(item, index) in getWords(post.text)" :key="index" :triggers="['click','focus']">
                     <span :class="{ active: isActive(post.text), lastActive: isLastActive(post.text) }">
