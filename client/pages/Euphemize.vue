@@ -30,14 +30,14 @@ export default {
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <p>Insira algo que gostaria de dizer de outra forma</p>
-            <textarea class="textarea" :v-model="input"></textarea>
+            <Textarea v-model="input" :autoResize="true" rows="5" cols="30" />
         </div>
         <div class="col-md-6 col-sm-12">
             <p>Sugiro tentar algo do tipo:</p>
             <div contenteditable disabled>{{output}}</div>
         </div>
         <div class="col-12">
-            <button @click="callAPI()" class="button">Eufemizar</button>
+            <Button label="Eufemizar" icon="pi pi-check" @click="callAPI()"/>
         </div> 
     </div>
 </template>

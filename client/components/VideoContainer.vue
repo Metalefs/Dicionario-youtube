@@ -9,25 +9,25 @@
       }
     },
     mounted() {
-    const { setPlayer } = playerStore()
-    new YT.Player('ytplayer', {
-      events: {
-        'onStateChange': (event) => { setPlayer(event) }
-      },
-      height: '360',
-      ///width: window.innerWidth - 90,
-      videoId: 'BnmUQrMDAAU',
-      origin: window.location.origin,
-      showinfo: 1,
-      enablejsapi: 1,
-      playerVars: {
-        'autoplay': 1,
-        'controls': 0,
-        'autohide': 1,
-        'fs': 0,
-        'wmode': 'opaque',        
-      },
-    })
+      const { setPlayer } = playerStore()
+      new YT.Player('ytplayer', {
+        events: {
+          'onStateChange': (event) => { setPlayer(event) }
+        },
+        height: '360',
+        ///width: window.innerWidth - 90,
+        videoId: 'BnmUQrMDAAU',
+        origin: window.location.origin,
+        showinfo: 1,
+        enablejsapi: 1,
+        playerVars: {
+          'autoplay': 1,
+          'controls': 0,
+          'autohide': 1,
+          'fs': 0,
+          'wmode': 'opaque',        
+        },
+      })
   }
 }
 </script>

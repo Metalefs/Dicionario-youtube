@@ -9,8 +9,8 @@
     <div class="col-md-6 col-sm-12">
       <VideoContainer/>
     </div>
-    <div class="px-0 col-md-1 d-sm-none d-md-block">
-      <IconSeparator/>
+    <div class="px-0 col-md-1 d-sm-none">
+      <!-- <IconSeparator/> -->
     </div>
     <div class="col-md-5 col-sm-12">
       <Transcript/>

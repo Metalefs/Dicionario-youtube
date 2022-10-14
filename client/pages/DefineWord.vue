@@ -38,7 +38,7 @@ export default {
 
         </div>
         <div class="col-12">
-            <button @click="callAPI()" class="button">Definir</button>
+            <Button label="Definir" icon="pi pi-check" @click="callAPI()"/>
         </div> 
     </div>
 </template>

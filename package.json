@@ -51,6 +51,7 @@
     "node-html-parser": "^6.1.0",
     "nodemon": "^2.0.20",
     "pinia": "^2.0.9",
+    "primevue": "^3.17.0",
     "puppeteer": "^18.0.5",
     "puppeteer-core": "^18.0.5",
     "reflect-metadata": "^0.1.13",
