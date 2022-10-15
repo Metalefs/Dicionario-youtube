@@ -1,16 +1,15 @@
 <script lang="ts">
 import { playerStore } from '@/stores/player'
-import { transcriptionStore } from '@/stores/transcription'
 import DefinitionToast from './DefinitionToast.vue';
 
 export default {
+  props: {
+    videoId: String,
+    transcription: Object,
+    activeTranscriptions: Object
+  },
   components: {
     DefinitionToast
-  },
-  data() {
-    return {
-      active_transcriptions: []
-    }
   },
   methods: {
     getVideoTitle() {
@@ -18,45 +17,20 @@ export default {
       return getPlayer?.target?.videoTitle ?? ''
     },
     activePhrases() {
-      return this.active_transcriptions
-    },
-    transcriptToasters(player) {
-      const { transcriptOffset } = transcriptionStore();
-    
-      transcriptionStore().$onAction(
-            ({
-                name,
-                store,
-                args,
-                after,
-                onError,
-            }) => {
-              after(async (result) => 
-              {
-                    if (name == 'transcript' && args) {
-                        setInterval(() => {
-                            this.full_transcription = result;
-                            const time = player?.target?.getCurrentTime() * 1000;
-                            this.active_transcriptions = transcriptOffset(time);
-                            this.hasActiveTranscription = !!this.hasActiveTranscription;
-                        }, 100)
-                    }
-                })
-            }
-        )
+      return this.activeTranscriptions
     },
   },
   mounted() {
     const { setPlayer } = playerStore();
-    this.transcriptToasters = this.transcriptToasters.bind(this);
-    const player = new YT.Player('ytplayer', {
+    new YT.Player('ytplayer', {
       events: {
-        'onStateChange': (event) => { setPlayer(event); 
-        this.transcriptToasters(event)}
+        'onStateChange': (event) => {
+          setPlayer(event);
+        }
       },
       height: '360',
       ///width: window.innerWidth - 90,
-      videoId: 'BnmUQrMDAAU',
+      videoId: this.videoId,
       origin: window.location.origin,
       showinfo: 1,
       enablejsapi: 1,

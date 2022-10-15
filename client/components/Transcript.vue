@@ -2,98 +2,61 @@
 import { transcriptionStore } from '@/stores/transcription'
 import { playerStore } from '@/stores/player';
 import DefinitionToast from './DefinitionToast.vue';
-// import { dictionaryStore } from '@/stores/dictionary';
 
 export default {
+    props: {
+        videoId: String,
+        transcription: Object,
+        activeTranscriptions: Object 
+    },
     components: {
         DefinitionToast
     },
     data() {
         return {
-            hasActiveTranscription: false,
-            active_transcriptions: [],
             full_transcription: [],
             canScroll: true,
+            updateTranscriptions: null
         }
     },
     async mounted() {
         const { player, ...getPlayer } = playerStore()
-        setInterval(() => {
-            var toastElList = [].slice.call(document.querySelectorAll('.toast:not(.fade)'))
-            var toastList = toastElList.map(function (toastEl) {
-                return new bootstrap.Toast(toastEl, { delay: 5000 })
-            })
-            toastList.forEach(s => s.show())
-        },300)
-        playerStore().$onAction(
-            ({
-                name, // name of the action
-                store, // store instance, same as `someStore`
-                args, // array of parameters passed to the action
-                after, // hook after the action returns or resolves
-                onError, // hook if the action throws or rejects
-            }) => {
-                // a shared variable for this specific action call
-                const startTime = Date.now()
-                // this will trigger before an action on `store` is executed
-                console.log(`Start "${name}".`)
+        const { transcriptOffset } = transcriptionStore()
+        console.log(player.target.getCurrentTime())
 
-                // this will trigger if the action succeeds and after it has fully run.
-                // it waits for any returned promised
-                after(async (result) => {
-                    if (name == 'setPlayer' && args) {
-                        const { transcript } = transcriptionStore()
-                        console.log(args[0].target.getCurrentTime())
-                        const id = args[0].target.playerInfo.videoData.video_id;
-                        await transcript(id);
-                        const { transcriptOffset, transcription } = transcriptionStore()
-                        setInterval(() => {
-                            this.full_transcription = transcription;
-                            const time = args[0]?.target?.getCurrentTime() * 1000;
-                            this.active_transcriptions = transcriptOffset(time);
-                            this.hasActiveTranscription = !!this.hasActiveTranscription;
-                            try {
-                                const element = document.querySelector(".lastActive");
-                                if (element && this.canScroll)
-                                    element.scrollIntoView(true);
-                                    // {
-                                    //     behavior: 'auto',
-                                    //     block: 'center',
-                                    //     inline: 'center'
-                                    // }
-                                if (!this.canScroll && player.target.getPlayerState() === 1) {
-                                    args[0]?.target?.pauseVideo()
-                                }
-                                // else if(this.canScroll && player.target.getPlayerState() === 2){
-                                //     args[0]?.target?.playVideo()
-                                // }
-                            } catch (ex) { }
-                        }, 100)
-                    }
-                })
+        this.updateTranscriptions = setInterval(async () => {
+            this.full_transcription = this.transcription;
+            const time = player?.target?.getCurrentTime() * 1000;
+            this.active_transcriptions = transcriptOffset(time);
+        }, 100)
 
-                // this will trigger if the action throws or returns a promise that rejects
-                onError((error) => {
-                    console.warn(
-                        `Failed "${name}" after ${Date.now() - startTime}ms.\nError: ${error}.`
-                    )
-                })
+        try {
+            const element = document.querySelector(".lastActive");
+            if (element && this.canScroll)
+                element.scrollIntoView({
+                    behavior: 'auto',
+                    block: 'center',
+                    inline: 'center'
+                });
+
+            if (!this.canScroll && player.target.getPlayerState() === 1) {
+                player?.target?.pauseVideo()
             }
-        )
+        } catch (ex) { }
     },
     methods: {
         isActive(text) {
-            return this.active_transcriptions?.some(t=> t.text ==text);
+            return this.activeTranscriptions?.some(t => t.text == text);
         },
         isLastActive(text) {
-            return this.active_transcriptions?.at(this.active_transcriptions.length - 1)?.text === text;
+            return this.activeTranscriptions?.at(this.activeTranscriptions.length - 1)?.text === text;
         },
         getWords(phrase) {
             return phrase.split(" ");
-        },
-        // activePhrases() {
-        //     return this.active_transcriptions
-        // }
+        }
+    },
+    unmounted() {
+        clearInterval(this.updateTranscriptions)
     }
 }
 </script>
@@ -102,7 +65,7 @@ export default {
     <div>
         <div class="transcript" @click="canScroll=false" @mouseout="canScroll=true">
             <p><em>Clique numa palavra para ler a sua definição</em></p>
-            <div class="d-flex flex-wrap line" v-for="post in active_transcriptions" :key="post.offset">
+            <div class="d-flex flex-wrap line" v-for="post in activeTranscriptions" :key="post.offset">
                 <VDropdown v-for="(item, index) in getWords(post.text)" :key="index" :triggers="['click','focus']">
                     <span :class="{ active: isActive(post.text), lastActive: isLastActive(post.text) }">
                         {{ item }} &nbsp;
@@ -113,11 +76,6 @@ export default {
                 </VDropdown>
             </div>
         </div>
-        <!-- <div>
-            <div class="toast-container">
-                <DefinitionToast v-for="phrase in activePhrases()" :phrase="phrase.text" :key="phrase.text" />
-            </div>
-        </div> -->
     </div>
 </template>
 

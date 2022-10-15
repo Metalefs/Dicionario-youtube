@@ -38,8 +38,10 @@ export default {
             </span>
             <Divider></Divider>
             <Card>
+                <template #title v-if="output?.name"> <p>Resultado para {{output?.name}}</p></template>
                 <template #content>
-                    <i :v-if="loading" class="pi pi-loading"></i>
+                    <em v-if="loading" class="pi pi-spin pi-spinner" style="font-size: 2rem"></em>
+
                     <div v-if="output?.definitions">
                         <p><span>{{output?.definitions[0] ?? ''}}</span></p>
                     </div>
