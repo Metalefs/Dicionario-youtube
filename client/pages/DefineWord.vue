@@ -20,9 +20,9 @@ export default {
             return phrase.split(" ");
         },
         async callAPI() {
-            const { defineWord } = dictionaryStore();
+            const { buildWord } = dictionaryStore();
             this.loading = true;
-            this.output = await defineWord(this.input || '');
+            this.output = await buildWord(this.input || '');
             this.loading = false;
         }
     }

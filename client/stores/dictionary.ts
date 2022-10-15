@@ -23,6 +23,16 @@ export const dictionaryStore = defineStore('dictionary', ()=>{
       console.log(error);
     }
   }
+  async function buildWord(word) {
+    try {
+      const response = await fetch(window.location.origin+"/build-word/"+word);
+      
+      this.word = await response.json();
+      return this.word;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  return { definition, definePhrase, defineWord }
+  return { definition, definePhrase, defineWord, buildWord }
 });
