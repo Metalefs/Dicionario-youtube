@@ -6,7 +6,6 @@ import FloatingVue from 'floating-vue'
 import 'floating-vue/dist/style.css'
 import 'primevue/resources/themes/saga-blue/theme.css'
 import 'primevue/resources/primevue.min.css'
-import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
