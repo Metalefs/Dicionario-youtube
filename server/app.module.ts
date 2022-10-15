@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { LexiconModule } from './lexicon.module';
 
 @Module({
-  imports: [LexiconModule,CacheModule.register({ttl: 0})],
+  imports: [LexiconModule,CacheModule.register({ttl: 60})],
   controllers: [AppController],
   providers: [
     {
