@@ -17,7 +17,7 @@ export class LexiconService {
   }
 
   async getWordDefinition(word): Promise<wordSearch> {    
-    return this.lexiconBuilder.returnWordDefinition(word);
+    return this.lexiconBuilder.builLexiconAndReturnWordDefinition(word);
   }
 
   async getPhrase(word): Promise<string> {

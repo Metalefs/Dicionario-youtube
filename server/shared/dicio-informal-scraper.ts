@@ -1,10 +1,11 @@
 import { parse } from "node-html-parser";
 import { wordSearch } from "./models/wordSearch";
 import { config } from "./config";
+import { Scraper } from "./interfaces/scraper";
 //import { Browser, Page } from "puppeteer-core";
 
 
-export class DicioInformalScraper {
+export class DicioInformalScraper implements Scraper{
     //page: Page;
     constructor(/*private browser: Browser*/) {
         this.getDefinition = this.getDefinition.bind(this);
@@ -13,26 +14,28 @@ export class DicioInformalScraper {
     async getDefinition(query, link = null) {
         //this.page = this.page ?? await this.browser.newPage();
         const response = await fetch(link ?? config.websites.dicionarioInformal(query));
+        
         const baseUrl = response.url;
 
+        
         //await this.page.goto(link ?? config.websites.dicionarioInformal(query));
         //const baseUrl = (this.page as unknown as Page).url();
-
+        
         let searchResult: wordSearch = new wordSearch();
-
+        
         console.log('searching: ' + query);
-
-        let content = await response.text();
+        
+        let content = await this.getContent(response);
         //let content = await (this.page as unknown as Page).content();
         if (content.includes('Nenhuma Definição encontrada')) {
             content = await this.tryGetFirstDefinitionContent(baseUrl, content);
         }
-
+        
         searchResult = await this.getData(content, query);
         return searchResult;
     }
 
-    async getData(html, query) {
+    private async getData(html, query) {
         const root = parse(html);
 
         let name;
@@ -98,16 +101,22 @@ export class DicioInformalScraper {
         }
     }
 
-    async tryGetFirstDefinitionContent(baseUrl: string, content: string) {
+    private async tryGetFirstDefinitionContent(baseUrl: string, content: string) {
         const anchor = parse(content).querySelector('.di-blue-link > a:nth-child(1)');
         if (anchor) {
             const href = anchor.getAttribute('href');
             const url = new URL(baseUrl);
             console.log("navigating to: "+url.origin + href.replace('https://www.dicionarioinformal.com.br',''));
-            content = await (await (fetch(url.origin + href.replace('https://www.dicionarioinformal.com.br', '')))).text();
+            content = await this.getContent(await fetch(url.origin + href.replace('https://www.dicionarioinformal.com.br', '')));
             //content = await (this.page as unknown as Page).content();
         }
         return content;
+    }
+
+    async getContent(request) {
+        const buffer = await request.arrayBuffer();
+        const decoder = new TextDecoder("iso-8859-1");
+        return decoder.decode(buffer);
     }
 }
 
