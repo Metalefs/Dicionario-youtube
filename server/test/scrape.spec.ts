@@ -6,10 +6,12 @@ import { Navigator } from '../shared/navigator';
 
 describe('Scrape', () => {
   test.only('search amizade', async () => {
+    const start = performance.now();
     const query = 'amizade';
     const navigator = new Navigator(/*browser as any*/)
-    const result = await navigator.searchDicioInformal(query);
-
+    const data = await navigator.searchDicioInformal(query);
+    const duration = (performance.now() - start);
+    const result = {duration, data}
     fs.writeFileSync(
       `./server/test/results/scrape/result.json`,
       JSON.stringify(result)
@@ -19,27 +21,27 @@ describe('Scrape', () => {
 
   }, 20000);
 
-  // test('search obrigado', async () => {
-  //   const query = 'obrigado';
-  //   const lexiconBuilder = new LexiconBuilder()
-  //   await lexiconBuilder.prepare();
+  test('search obrigado', async () => {
+    const query = 'obrigado';
+    const lexiconBuilder = new LexiconBuilder()
+    await lexiconBuilder.prepare();
 
-  //   const start = performance.now();
-    
-  //   const data = await lexiconBuilder.builLexiconAndReturnWordDefinition(query);
-    
-  //   const duration = (performance.now() - start);
-    
-  //   const result = {duration, data}
+    const start = performance.now();
+  
+    const data = await lexiconBuilder.builLexiconAndReturnWordDefinition(query);
+  
+    const duration = (performance.now() - start);
+  
+    const result = {duration, data}
 
-  //   fs.writeFileSync(
-  //     `./server/test/results/scrape/definition-result.json`,
-  //     JSON.stringify(result)
-  //   );
+    fs.writeFileSync(
+      `./server/test/results/scrape/definition-result.json`,
+      JSON.stringify(result)
+    );
 
-  //   expect(result).toBeTruthy();
-  //   //browser.close()
+    expect(result).toBeTruthy();
+    //browser.close()
 
-  // }, 20000);
+  }, 20000);
 
 });

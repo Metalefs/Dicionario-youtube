@@ -2,13 +2,14 @@ import { parse } from 'node-html-parser';
 import { wordSearch } from './models/wordSearch';
 import { config } from './config';
 import { Scraper } from './interfaces/scraper';
-import { got } from 'got';
+
+import got from 'got';
 
 export class DicioInformalScraper implements Scraper {
   constructor() {
     this.getDefinition = this.getDefinition.bind(this);
     this.tryGetFirstDefinitionContent =
-      this.tryGetFirstDefinitionContent.bind(this);
+    this.tryGetFirstDefinitionContent.bind(this);
   }
   async getDefinition(query, link = null) {
     const response = await got(
@@ -121,7 +122,7 @@ export class DicioInformalScraper implements Scraper {
     return content;
   }
 
-  async getContent(response: Response) {
-    return response.text();
+  async getContent(response) {
+    return response.body;
   }
 }
