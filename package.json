@@ -2,7 +2,7 @@
   "name": "dicionario-rasquido",
   "version": "0.0.1",
   "engines": {
-    "node": "18.x",
+    "node": "17.5",
     "npm": "6.x"
   },
   "description": "",
@@ -36,8 +36,6 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
-    "@types/localtunnel": "^2.0.1",
-    "@types/puppeteer": "^5.4.6",
     "@vitejs/plugin-vue": "^2.0.1",
     "@vitejs/plugin-vue-jsx": "^1.3.3",
     "agenda": "^4.3.0",
@@ -52,8 +50,6 @@
     "nodemon": "^2.0.20",
     "pinia": "^2.0.9",
     "primevue": "^3.17.0",
-    "puppeteer": "^18.0.5",
-    "puppeteer-core": "^18.0.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
