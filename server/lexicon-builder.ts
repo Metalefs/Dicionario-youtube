@@ -5,7 +5,7 @@ import { getRandomWord } from "./helper/lexicon-helper"
 import { WordService } from "./services/word.service"
 import { wordSearch } from "./shared/models/wordSearch"
 import { Navigator } from "./shared/navigator"
-import { isProduction } from "./utils/env"
+//import { isProduction } from "./utils/env"
 
 export class LexiconBuilder {
     //browser:Browser;
@@ -42,6 +42,7 @@ export class LexiconBuilder {
             //if (!isProduction) {
                 wordSearch = await this.navigator.searchDicioInformal(word);
                 if (!wordSearch) { return word }
+                wordSearch.isRelatedLoaded = false;
                 this.wordService.update({ name: wordSearch.name }, wordSearch);
                 return wordSearch as wordSearch;
             //}
@@ -50,8 +51,9 @@ export class LexiconBuilder {
 
     builLexiconAndReturnWordDefinition = async (word: string) => {
         const definition = await this.buildLexicon(word);
-        if(!(definition.isRelatedLoaded ?? false))
-            await this.wordService.updateRelatedVocabs(definition, this.navigator.searchDicioInformal)
+        
+        if(!definition.isRelatedLoaded)
+            await this.wordService.updateRelatedVocabs(definition, this.navigator.scrapers)
         return definition;
     }
     
