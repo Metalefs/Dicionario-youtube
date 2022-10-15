@@ -10,6 +10,12 @@ import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Splitter from 'primevue/splitter';
+import SplitterPanel from 'primevue/splitterpanel';
+import Divider from 'primevue/divider';
+import Toolbar from 'primevue/toolbar';
+import Card from 'primevue/card';
 
 export function createApp() {
   const app = createSSRApp(App);
@@ -20,6 +26,12 @@ export function createApp() {
   app.use(PrimeVue, {inputStyle: 'filled'});
   app.component('Textarea', Textarea);
   app.component('Button', Button);
+  app.component('InputText', InputText);
+  app.component('Splitter', Splitter);
+  app.component('SplitterPanel', SplitterPanel);
+  app.component('Divider', Divider);
+  app.component('Toolbar', Toolbar);
+  app.component('Card', Card);
 
   return { app, router, pinia };
 }

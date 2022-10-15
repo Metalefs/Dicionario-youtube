@@ -8,7 +8,8 @@ export default {
         return {
             canScroll: true,
             input: '',
-            output: '',
+            output: null,
+            loading: false,
         }
     },
     async mounted() {
@@ -18,29 +19,42 @@ export default {
         getWords(phrase) {
             return phrase.split(" ");
         },
-        async callAPI(){
+        async callAPI() {
             const { defineWord } = dictionaryStore();
+            this.loading = true;
             this.output = await defineWord(this.input || '');
+            this.loading = false;
         }
     }
 }
 </script>
 
 <template>
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <p>Insira uma palavra para ter uma visão melhor dela</p>
-            <input class="input" v-model="input">
+    <main class="w-100">
+        <div class="w-100d-flex flex-row align-items-end justify-content-center">
+            <label for="word">Insira uma palavra para ter uma visão melhor dela</label>
+            <span class="p-float-label">
+                <InputText @change="callAPI()" id="word" type="text" v-model="input"/>
+            </span>
+            <Divider></Divider>
+            <Card>
+                <template #content>
+                    <i :v-if="loading" class="pi pi-loading"></i>
+                    <div v-if="output?.definitions">
+                        <p><span>{{output?.definitions[0] ?? ''}}</span></p>
+                    </div>
+                    <div v-if="output?.examples">{{output?.examples[0] ?? ''}}</div>
+                </template>
+            </Card>
         </div>
-        <div class="col-md-6 col-sm-12">
-           
-           <div contenteditable disabled>{{JSON.stringify(output)}}</div>
-
+        <div>
+            <Divider></Divider>
+            <h3>Relacionados</h3>
+            <div v-for="related of output?.related" :key="related.name">
+                <a href="#" @click="input=related.name;callAPI()">{{related.name ?? ''}}</a>
+            </div>
         </div>
-        <div class="col-12">
-            <Button label="Definir" icon="pi pi-check" @click="callAPI()"/>
-        </div> 
-    </div>
+    </main>
 </template>
 
 <style scoped>

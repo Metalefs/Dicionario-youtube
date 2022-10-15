@@ -1,7 +1,13 @@
 <template>
-  <div class="about">
-    <h1>Site criado para decifrar o léxico utilizado por um BR vivendo no Japão, conhecido *mundialmente como <a href='https://www.youtube.com/c/BakaGaijinn' target="_blank">Baka Gaijin</a></h1>
-  </div>
+  <main>
+    <div class="about">
+      <div>
+        <img src="../assets/Kindergarten-student.svg" height="450" />
+      </div>
+      <h1>Site criado para decifrar o léxico utilizado por um BR vivendo no Japão, conhecido *mundialmente como <a
+          href='https://www.youtube.com/c/BakaGaijinn' target="_blank">Baka Gaijin</a></h1>
+    </div>
+  </main>
 </template>
 
 <style>

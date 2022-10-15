@@ -15,7 +15,7 @@ export const transcriptionStore = defineStore('transcription', ()=>{
   }
 
   function transcriptOffset(offset) {
-    return this.transcription.filter(t=>(t.offset - 100) <= offset)/*.filter(t=> offset <= ((t.offset + 300)+ t.duration))*/ ?? [];
+    return this.transcription.filter(t=>(t.offset - 100) <= offset).filter(t=> offset <= ((t.offset + 300)+ t.duration)) ?? [];
   }
   return { transcription, transcript, transcriptOffset }
 });

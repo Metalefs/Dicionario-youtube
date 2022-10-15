@@ -14,22 +14,24 @@ import VideoContainer from '@/components/VideoContainer.vue';
         <RouterLink to="/defineword">Definir uma palavra</RouterLink>
       </nav>
     </header>
-    <div class="wrapper">
-      <RouterView />
-    </div>
+  </div>
+  <div class="wrapper">
+    <RouterView />
   </div>
 </template>
 
 <style>
 @import '@/assets/base.css';
+
 .wrapper {
-    min-height: 95vh;
-    display: flex;
-    align-items: center;
-  }
+  height: 80vh;
+  display: flex;
+  width: 100%;
+  align-items: start;
+  justify-content: center;
+}
+
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
 }
@@ -79,7 +81,7 @@ nav a:first-of-type {
 
 @media (min-width: 1024px) {
   body {
-    display: flex;
+    /* display: flex; */
     place-items: center;
   }
 
@@ -91,7 +93,6 @@ nav a:first-of-type {
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
-
     padding: 1rem 0;
     margin-top: 1rem;
   }
