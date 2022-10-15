@@ -17,6 +17,8 @@ describe('Scrape', () => {
       JSON.stringify(result)
     );
 
+    
+
     expect(result).toBeTruthy();
 
   }, 20000);
