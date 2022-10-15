@@ -5,10 +5,10 @@ import { LexiconBuilder } from '../lexicon-builder';
 import { Navigator } from '../shared/navigator';
 
 describe('Scrape', () => {
-  test.only('search amizade', async () => {
-    const start = performance.now();
+  test('search amizade', async () => {
     const query = 'amizade';
     const navigator = new Navigator(/*browser as any*/)
+    const start = performance.now();
     const data = await navigator.searchDicioInformal(query);
     const duration = (performance.now() - start);
     const result = {duration, data}
@@ -27,13 +27,9 @@ describe('Scrape', () => {
     await lexiconBuilder.prepare();
 
     const start = performance.now();
-  
     const data = await lexiconBuilder.builLexiconAndReturnWordDefinition(query);
-  
-    const duration = (performance.now() - start);
-  
+    const duration = (performance.now() - start);  
     const result = {duration, data}
-
     fs.writeFileSync(
       `./server/test/results/scrape/definition-result.json`,
       JSON.stringify(result)
