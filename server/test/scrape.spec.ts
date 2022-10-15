@@ -1,14 +1,14 @@
 
 import { describe, expect, test } from '@jest/globals';
 import * as fs from 'fs';
-import { launch } from 'server/shared/browser';
-import { Navigator } from 'server/shared/navigator';
+//import { launch } from 'server/shared/browser';
+import { Navigator } from '..//shared/navigator';
 
 describe('Scrape', () => {
   test('search amizade', async () => {
     const query = 'amizade';
-    const browser = await launch();
-    const navigator = new Navigator(browser as any)
+    //const browser = await launch();
+    const navigator = new Navigator(/*browser as any*/)
     const result = await navigator.searchDicioInformal(query);
 
     fs.writeFileSync(
@@ -17,7 +17,7 @@ describe('Scrape', () => {
     );
 
     expect(result).toBeTruthy();
-    browser.close()
+    //browser.close()
 
   }, 20000);
 

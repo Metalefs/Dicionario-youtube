@@ -1,24 +1,29 @@
 import { parse } from "node-html-parser";
 import { wordSearch } from "./models/wordSearch";
 import { config } from "./config";
-import { Browser, Page } from "puppeteer-core";
+//import { Browser, Page } from "puppeteer-core";
 
 
 export class DicioInformalScraper {
-    page: Page;
-    constructor(private browser: Browser) {
+    //page: Page;
+    constructor(/*private browser: Browser*/) {
         this.getDefinition = this.getDefinition.bind(this);
         this.tryGetFirstDefinitionContent = this.tryGetFirstDefinitionContent.bind(this)
     }
     async getDefinition(query, link = null) {
-        this.page = this.page ?? await this.browser.newPage();
-        await this.page.goto(link ?? config.websites.dicionarioInformal(query));
-        const baseUrl = (this.page as unknown as Page).url();
+        //this.page = this.page ?? await this.browser.newPage();
+        const response = await fetch(link ?? config.websites.dicionarioInformal(query));
+        const baseUrl = response.url;
+
+        //await this.page.goto(link ?? config.websites.dicionarioInformal(query));
+        //const baseUrl = (this.page as unknown as Page).url();
+
         let searchResult: wordSearch = new wordSearch();
 
         console.log('searching: ' + query);
 
-        let content = await (this.page as unknown as Page).content();
+        let content = await response.text();
+        //let content = await (this.page as unknown as Page).content();
         if (content.includes('Nenhuma Definição encontrada')) {
             content = await this.tryGetFirstDefinitionContent(baseUrl, content);
         }
@@ -35,10 +40,10 @@ export class DicioInformalScraper {
             name = root.querySelector('#word-header').getAttribute('value')
         }
         catch (ex) {           
-            await (this.page as unknown as Page).screenshot({
-                path: `./server/screenshots/${query}.png`,
-                fullPage: true,
-            });
+            // await (this.page as unknown as Page).screenshot({
+            //     path: `./server/screenshots/${query}.png`,
+            //     fullPage: true,
+            // });
             console.error('error while searching: ' + query);
         }
 
@@ -99,8 +104,8 @@ export class DicioInformalScraper {
             const href = anchor.getAttribute('href');
             const url = new URL(baseUrl);
             console.log("navigating to: "+url.origin + href.replace('https://www.dicionarioinformal.com.br',''));
-            await this.page.goto(url.origin + href.replace('https://www.dicionarioinformal.com.br',''));
-            content = await (this.page as unknown as Page).content();
+            content = await (await (fetch(url.origin + href.replace('https://www.dicionarioinformal.com.br', '')))).text();
+            //content = await (this.page as unknown as Page).content();
         }
         return content;
     }
