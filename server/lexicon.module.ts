@@ -5,7 +5,7 @@ import { LexiconService } from './lexicon.service';
 import { YoutubeTranscriptController } from './youtube-transcript/youtube-transcript.controller';
 
 @Module({
-  imports: [CacheModule.register({ttl: 0})],
+  imports: [CacheModule.register({ttl: 60})],
   controllers: [LexiconController, YoutubeTranscriptController],
   providers: [
     LexiconService,
