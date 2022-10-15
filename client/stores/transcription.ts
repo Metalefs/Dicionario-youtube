@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { APIURL } from '../constants';
 export const transcriptionStore = defineStore('transcription', ()=>{
   const transcription = []
  

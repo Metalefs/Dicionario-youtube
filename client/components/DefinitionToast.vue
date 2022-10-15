@@ -22,8 +22,6 @@ export default {
             this.def_phrase = await definePhrase(this.phrase || '');
         if (this.word)
             this.definition = await defineWord(this.word || '');
-
-
     }
 }
 </script>
