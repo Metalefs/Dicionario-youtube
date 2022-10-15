@@ -21,7 +21,7 @@ export class DicioInformalScraper implements Scraper {
 
     console.log('searching: ' + query);
 
-    let content = await this.getContent(response as any);
+    let content = this.getContent(response as any);
     if (content.includes('Nenhuma Definição encontrada')) {
       content = await this.tryGetFirstDefinitionContent(baseUrl, content);
     }
@@ -113,7 +113,7 @@ export class DicioInformalScraper implements Scraper {
           url.origin +
           href.replace('https://www.dicionarioinformal.com.br', '')
       );
-      content = await this.getContent(
+      content = this.getContent(
         (await got(
           url.origin + href.replace('https://www.dicionarioinformal.com.br', '')
         )) as any
@@ -122,7 +122,9 @@ export class DicioInformalScraper implements Scraper {
     return content;
   }
 
-  async getContent(response) {
-    return response.body;
+  getContent(response) {
+    const buffer = response.rawBody;
+    const decoder = new TextDecoder("iso-8859-1");
+    return decoder.decode(buffer);
   }
 }
