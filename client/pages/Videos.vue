@@ -32,10 +32,9 @@ export default {
       if((this.videoId as string).includes('youtube')){
         const url = new URL(this.videoId);
         const v = url.searchParams.get('v');
-        this.transcription = await transcript(v);
+        this.videoID = v;
       }
-      else
-        this.transcription = await transcript(this.videoId);
+      this.transcription = await transcript(this.videoId);
     },
     updateToasters() {
       this.updateToastersInterval = setInterval(() => {
