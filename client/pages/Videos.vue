@@ -29,7 +29,13 @@ export default {
   methods: {
     async transcribe() {
       const { transcript } = transcriptionStore();
-      this.transcription = await transcript(this.videoId);
+      if((this.videoId as string).includes('youtube')){
+        const url = new URL(this.videoId);
+        const v = url.searchParams.get('v');
+        this.transcription = await transcript(v);
+      }
+      else
+        this.transcription = await transcript(this.videoId);
     },
     updateToasters() {
       this.updateToastersInterval = setInterval(() => {
@@ -59,7 +65,7 @@ export default {
 <template>
   <div class="w-100 row align-items-center justify-content-center">
     <div class="col-md-6 col-sm-12">
-      <label for="videoid">Insira ID de um vídeo do youtube (ex: BnmUQrMDAAU)</label>
+      <label for="videoid">Insira ID/URL de um vídeo do youtube (ex: BnmUQrMDAAU)</label>
       <span class="p-float-label">
         <InputText @change="transcribe()" id="videoid" type="text" v-model="videoId" />
       </span>
