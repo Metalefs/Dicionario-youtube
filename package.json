@@ -15,17 +15,24 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    
     "build:csr": "ts-node scripts/build-csr",
     "build:ssr": "ts-node scripts/build-ssr",
+
     "postbuild": "npm run build:csr && npm run build:ssr",
-    "format": "prettier --write \"server/**/*.ts\" \"test/**/*.ts\"",
+    
     "start": "npm run prod",
-    "preload": "ts-node ./server/preload-vocab.ts",
+    
+    
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    
     "prod": "cross-env NODE_ENV=production node dist/main",
+    
+    "preload": "ts-node ./server/preload-vocab.ts",
     "lint": "eslint \"{server,apps,libs,test}/**/*.ts\" --fix",
+    "format": "prettier --write \"server/**/*.ts\" \"test/**/*.ts\"",
     "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
