@@ -63,9 +63,12 @@ export default {
 p {
     color: black;
 }
-
+.toast {
+    
+  float: left;
+  position: sticky;
+}
 .toast-body p {
     color: black;
-
 }
 </style>

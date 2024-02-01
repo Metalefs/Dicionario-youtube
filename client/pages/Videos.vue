@@ -13,7 +13,7 @@ export default {
     return {
       updateToastersInterval: null,
       updateActiveTranscriptionsInterval: null,
-      videoId: 'VQJMo2eszk0',
+      videoId: 'DB-JmCr4wLY',
       transcription: {},
       activeTranscriptions: {}
     }
@@ -65,9 +65,9 @@ export default {
   <div class="w-100 row align-items-center justify-content-center">
     <div class="col-md-6 col-sm-12">
       <label for="videoid">Insira ID/URL de um vídeo do youtube (ex: BnmUQrMDAAU)</label>
-      <span class="p-float-label">
+      <div class="p-float-label">
         <InputText @change="transcribe()" id="videoid" type="text" v-model="videoId" />
-      </span>
+      </div>
       <VideoContainer :video-id="videoId" :active-transcriptions="activeTranscriptions" :key="videoId" />
     </div>
     <div class="px-0 col-md-1 d-sm-none">

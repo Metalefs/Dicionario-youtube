@@ -77,7 +77,9 @@ h3 {
 .greetings h3 {
   text-align: center;
 }
-
+.toast-container{
+  background: #faebd766;
+}
 @media (min-width: 1024px) {
 
   .greetings h1,
