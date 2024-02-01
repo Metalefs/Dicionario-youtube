@@ -1,6 +1,6 @@
 {
   "name": "dicionario-rasquido",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "engines": {
     "node": "18.x",
     "npm": "9.x"
