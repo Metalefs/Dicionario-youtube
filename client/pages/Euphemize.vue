@@ -36,9 +36,9 @@ export default {
                 <p>Insira algo que gostaria de dizer de outra forma</p>
                 <div class="field col-12 md:col-4">
                     <span class="p-float-label">
-                        <Textarea class="w-100" @change="callAPI()" v-model="input" :autoResize="true" id="textarea"
-                            rows="3" />
                         <label for="textarea">Insira algo</label>
+                        <Textarea class="w-100" @change="callAPI()" v-model="input" :autoResize="true" id="textarea"
+                            rows="3" />                        
                     </span>
                 </div>
             </div>
